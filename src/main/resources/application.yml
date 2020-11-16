@@ -1,0 +1,7 @@
+spring:
+  datasource:
+      url: jdbc:mysql://176.148.3.248:13306/db?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: Galaxy@46710
+mybatis:
+   mapperLocations: classpath:/mapper/*.xml

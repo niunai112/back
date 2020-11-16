@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heeexy.example.dao.OrderDao">
+    <insert id="addTime">
+        INSERT INTO tx_order
+        (
+            order_time,
+            delete_status
+        )
+        VALUES
+        (
+            #{orderTime},
+            #{deleteStatus}
+        )
+    </insert>
+    <update id="deleteAll">
+        UPDATE tx_order
+        SET
+            delete_status = 2
+    </update>
+
+    <select id="getTime" resultType="java.lang.String">
+        SELECT
+            order_time sendTime
+        FROM
+            tx_order
+        WHERE
+            delete_status = 1
+    </select>
+
+</mapper>
