@@ -3,7 +3,10 @@ package com.heeexy.example.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.service.ArticleService;
 import com.heeexy.example.util.CommonUtil;
+import com.heeexy.example.util.constants.Constants;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,8 @@ public class ArticleController {
 	@RequiresPermissions("article:list")
 	@GetMapping("/listArticle")
 	public JSONObject listArticle(HttpServletRequest request) {
+		Session session = SecurityUtils.getSubject().getSession();
+		System.err.println(session.getAttribute(Constants.SESSION_USER_PERMISSION));
 		return articleService.listArticle(CommonUtil.request2Json(request));
 	}
 

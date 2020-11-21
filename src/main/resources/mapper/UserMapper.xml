@@ -58,6 +58,9 @@
     </select>
 
     <insert id="addUser" useGeneratedKeys="true" keyProperty="userId">
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO sys_user
         (username, password, nickname, role_id) VALUES
             (#{username}, #{password}, #{nickname}, #{roleId})

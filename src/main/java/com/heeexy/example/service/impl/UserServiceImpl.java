@@ -1,9 +1,11 @@
 package com.heeexy.example.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.heeexy.example.dao.MerchantsDao;
 import com.heeexy.example.dao.UserDao;
 import com.heeexy.example.service.UserService;
 import com.heeexy.example.util.CommonUtil;
+import com.heeexy.example.util.constants.DeleteStateEnum;
 import com.heeexy.example.util.constants.ErrorEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private MerchantsDao merchantsDao;
 
 	/**
 	 * 用户列表
@@ -45,6 +49,13 @@ public class UserServiceImpl implements UserService {
 			return CommonUtil.errorJson(ErrorEnum.E_10009);
 		}
 		userDao.addUser(jsonObject);
+		long id=jsonObject.getLong("id");
+
+		JSONObject jsonObject1=new JSONObject();
+		jsonObject1.put("userId",id);
+		jsonObject1.put("deleteStatus", DeleteStateEnum.NORMAL.getDeleteStateCode());
+		merchantsDao.addMerchants(jsonObject1);
+
 		return CommonUtil.successJson();
 	}
 

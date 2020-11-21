@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heeexy.example.dao.MerchantsDao">
+
+    <insert id="addMerchants" parameterType="com.alibaba.fastjson.JSONObject">
+        INSERT INTO business
+            (
+            <trim suffixOverrides=",">
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(deleteStatus)">delete_status,</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessName)">business_name,</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessPhone)">business_phone,</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessDress)">business_dress,</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessHoursBefrom)">business_hours_befrom,</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessBrief)">business_brief,</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessHoursAfter)">business_hours_after,</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(userId)">user_id,</if>
+            </trim>
+            )
+        VALUES
+            (
+            <trim suffixOverrides=",">
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(deleteStatus)">#{deleteStatus},</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessName)">#{businessName},</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessPhone)">#{businessPhone},</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessDress)">#{businessDress},</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessHoursBefrom)">#{businessHoursBefrom},</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessBrief)">#{businessBrief},</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessHoursAfter)">#{businessHoursAfter},</if>
+                <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(userId)">#{userId},</if>
+            </trim>
+            )
+    </insert>
+    
+    <select id="selectOne" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            business_name              businessName,
+            business_phone             businessPhone,
+            business_dress             businessDress,
+            business_hours_befrom      businessHoursBefrom,
+            business_brief             businessBrief,
+            business_hours_after       businessHoursAfter
+        FROM
+            business
+        WHERE
+            user_id=#{userId}
+    </select>
+
+    <select id="selectConut" resultType="Integer">
+        SELECT count(*)
+        FROM business
+        WHERE
+            delete_status = '1'
+    </select>
+
+    <select id="selectMerchants" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            id,
+            business_dress  businessDress,
+            business_name  businessName,
+            create_time  createTime,
+            update_time  updateTime
+        FROM business
+        WHERE
+            delete_status = '1'
+        ORDER BY id DESC
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <update id="updateMerchants" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE business
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessName)">
+                business_name = #{businessName},
+            </if>
+            <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessPhone)">
+                business_phone=#{businessPhone},
+            </if>
+            <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessDress)">
+                business_dress=#{businessDress},
+            </if>
+            <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessHoursBefrom)">
+                business_hours_befrom=#{businessHoursBefrom},
+            </if>
+            <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessBrief)">
+                business_brief=#{businessBrief},
+            </if>
+            <if test="!@com.heeexy.example.util.StringTools@isNullOrEmpty(businessHoursAfter)">
+                business_hours_after=#{businessHoursAfter},
+            </if>
+        </trim>
+        WHERE user_id = #{userId}
+    </update>
+
+</mapper>
